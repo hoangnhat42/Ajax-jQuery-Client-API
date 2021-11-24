@@ -67,7 +67,6 @@ function updateRecord(formData) {
 
 function onDelete(td) {
 
-    //var id = $('#id').val();
     selectedRow = td.parentElement.parentElement;
     var id = selectedRow.cells[0].innerHTML;
     var weHaveSuccess = false;
@@ -139,6 +138,7 @@ $(function () {
             data: JSON.stringify(order),
             success: function(newOrder,status,xhr) {
                 addOrder(newOrder);
+                location.reload(); 
                 weHaveSuccess = true;
             },
             error: function(xhr, status,error) {

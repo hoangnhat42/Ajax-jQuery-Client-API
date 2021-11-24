@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Management Book</title>
+    <title>Management Order</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -12,7 +12,6 @@
     
 </head>
 <body>
-    
     <div class="container">
         <div class="row">
             
@@ -31,24 +30,36 @@
                         
                         </div>
                         <div>
-                            <label>Author</label><label class="validation-error hide" id="authorValidationError">This field is required.</label>
-                            <input type="text" name="author" id="author">
+                            <label>Book ID</label><label class="validation-error hide" id="bookIdValidationError">This field is required.</label>
+                            <input type="text" name="bookId" id="bookId">
                         </div>
                         <div>
-                            <label>Description</label>
-                            <input type="text" name="description" id="description">
+                            <label>Quantity</label>
+                            <input type="text" name="quantity" id="quantity">
                         </div>
                         <div>
-                            <label>Publish Date</label>
-                            <input type="text" name="publishDate" id="publishDate">
+                            <label>orderDate</label>
+                            <input type="text" name="orderDate" id="orderDate">
                         </div>
                         <div>
-                            <label>Title</label>
-                            <input type="text" name="title" id="title">
+                            <label>name</label>
+                            <input type="text" name="name" id="name">
                         </div>
                         <div>
-                            <label>Price</label>
-                            <input type="text" name="price" id="price">
+                            <label>contact</label>
+                            <input type="text" name="contact" id="contact">
+                        </div>
+                        <div>
+                            <label>shippingAddress</label>
+                            <input type="text" name="shippingAddress" id="shippingAddress">
+                        </div>
+                        <div>
+                            <label>total</label>
+                            <input type="text" name="total" id="total">
+                        </div>
+                        <div>
+                            <label>status</label>
+                            <input type="text" name="status" id="status">
                         </div>
                         <div  class="form-action-buttons">
                             
@@ -63,14 +74,16 @@
                         <thead>
                             <tr>
                         <th>id</th>
-                        <th>author</th>
-                        <th>description</th>
-                        <th>publishDate</th>
-                        <th>title</th>
-                        <th>price</th>
+                        <th>bookId</th>
+                        <th>quantity</th>
+                        <th>orderDate</th>
+                        <th>name</th>
+                        <th>contact</th>
+                        <th>shippingAddress</th>
+                        <th>total</th>
+                        <th>status</th>
                         <th>Edit</th>
-                        <th>Delete</th>
-                               
+                        <th>Delete</th>       
                             </tr>
                         </thead>
                         <tbody>
@@ -81,7 +94,7 @@
             </tr>
         </table>
     </div>
-    <script src="script.js"></script>
+    <script src="script-order.js"></script>
     <script>
         $(document).ready(function() {
             LoadData();
@@ -89,7 +102,7 @@
 
         function LoadData() {
             $.ajax({
-                url: 'https://4mnqff3wfj.execute-api.us-east-1.amazonaws.com/dev/book',
+                url: 'https://20pfc42nzb.execute-api.us-east-1.amazonaws.com/dev/order',
                 type: 'GET',
                 success: function(rs) {
                     console.log(rs);
@@ -97,11 +110,14 @@
                     $.each(rs, function(i, item) {
                         str += "<tr>";
                         str += "<td>" + item.id + "</td>"; //so tu tang
-                        str += "<td>" + item.author + "</td>"; //tieu de
-                        str += "<td>" + item.description + "</td>";
-                        str += "<td>" + item.publishDate + "</td>";
-                        str += "<td>" + item.title + "</td>";
-                        str += "<td>" + item.price + "</td>";
+                        str += "<td>" + item.bookId + "</td>"; //tieu de
+                        str += "<td>" + item.quantity + "</td>";
+                        str += "<td>" + item.orderDate + "</td>";
+                        str += "<td>" + item.name + "</td>";
+                        str += "<td>" + item.contact + "</td>";
+                        str += "<td>" + item.shippingAddress + "</td>";
+                        str += "<td>" + item.total + "</td>";
+                        str += "<td>" + item.status + "</td>";
                         str += "<td> <a onClick='onEdit(this)'>Edit</a> </td>";
                         str += "<td> <a onClick='onDelete(this)'>Delete</a> </td>";
                         str += "</tr>";
