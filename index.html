@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot management</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            
+        </div>
+    
+    </div>
+
+    <div>
+        <table>
+            <tr>
+                <td>
+                    <form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
+                        <div>
+                            <label>Author*</label><label class="validation-error hide" id="authorValidationError">This field is required.</label>
+                            <input type="text" name="author" id="author">
+                        </div>
+                        <div>
+                            <label>Description</label>
+                            <input type="text" name="description" id="description">
+                        </div>
+                        <div>
+                            <label>Publish Date</label>
+                            <input type="text" name="publishDate" id="publishDate">
+                        </div>
+                        <div>
+                            <label>Title</label>
+                            <input type="text" name="title" id="title">
+                        </div>
+                        <div>
+                            <label>Price</label>
+                            <input type="text" name="price" id="price">
+                        </div>
+                        <div  class="form-action-buttons">
+                            <input type="submit" value="Submit">
+                            
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    <table class="list" id="employeeList">
+                        <thead>
+                            <tr>
+                        <th>id</th>
+                        <th>author</th>
+                        <th>description</th>
+                        <th>publishDate</th>
+                        <th>title</th>
+                        <th>price</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+    
+                        <tbody id="load_data">
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        $(document).ready(function() {
+            LoadData();
+        });
+
+        function LoadData() {
+            $.ajax({
+                url: 'https://4mnqff3wfj.execute-api.us-east-1.amazonaws.com/dev/book',
+                type: 'GET',
+                success: function(rs) {
+                    console.log(rs);
+                    var str = "";
+                    $.each(rs, function(i, item) {
+                        str += "<tr>";
+                        str += "<td>" + item.id + "</td>"; //so tu tang
+                        str += "<td>" + item.author + "</td>"; //tieu de
+                        str += "<td>" + item.description + "</td>";
+                        str += "<td>" + item.publishDate + "</td>";
+                        str += "<td>" + item.title + "</td>";
+                        str += "<td>" + item.price + "</td>";
+                        str += "</tr>";
+
+                    });
+                    $('#load_data').html(str);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
