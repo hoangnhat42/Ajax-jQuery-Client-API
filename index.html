@@ -25,7 +25,12 @@
                 <td>
                     <form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
                         <div>
-                            <label>Author*</label><label class="validation-error hide" id="authorValidationError">This field is required.</label>
+                            <label>Id*</label>
+                            <input readonly type="text" name="id" id="id">
+                        
+                        </div>
+                        <div>
+                            <label>Author</label><label class="validation-error hide" id="authorValidationError">This field is required.</label>
                             <input type="text" name="author" id="author">
                         </div>
                         <div>
@@ -45,7 +50,9 @@
                             <input type="text" name="price" id="price">
                         </div>
                         <div  class="form-action-buttons">
-                            <input type="submit" value="Submit">
+                            
+                            <button id="add-order">Add</button>
+                            <button id="update-order">Update</button>
                             
                         </div>
                     </form>
@@ -60,6 +67,8 @@
                         <th>publishDate</th>
                         <th>title</th>
                         <th>price</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                                
                             </tr>
                         </thead>
@@ -92,6 +101,8 @@
                         str += "<td>" + item.publishDate + "</td>";
                         str += "<td>" + item.title + "</td>";
                         str += "<td>" + item.price + "</td>";
+                        str += "<td> <a onClick='onEdit(this)''>Edit</a> </td>";
+                        str += "<td> <a onClick='onDelete(this)'>Delete</a> </td>";
                         str += "</tr>";
 
                     });

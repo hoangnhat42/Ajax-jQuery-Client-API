@@ -50,11 +50,12 @@ function resetForm() {
 
 function onEdit(td) {
     selectedRow = td.parentElement.parentElement;
-    document.getElementById("author").value = selectedRow.cells[0].innerHTML;
-    document.getElementById("description").value = selectedRow.cells[1].innerHTML;
-    document.getElementById("publishDate").value = selectedRow.cells[2].innerHTML;
-    document.getElementById("title").value = selectedRow.cells[3].innerHTML;
-    document.getElementById("price").value = selectedRow.cells[4].innerHTML;
+    document.getElementById("id").value = selectedRow.cells[0].innerHTML;
+    document.getElementById("author").value = selectedRow.cells[1].innerHTML;
+    document.getElementById("description").value = selectedRow.cells[2].innerHTML;
+    document.getElementById("publishDate").value = selectedRow.cells[3].innerHTML;
+    document.getElementById("title").value = selectedRow.cells[4].innerHTML;
+    document.getElementById("price").value = selectedRow.cells[5].innerHTML;
 }
 function updateRecord(formData) {
     selectedRow.cells[0].innerHTML = formData.author;
@@ -65,12 +66,31 @@ function updateRecord(formData) {
 }
 
 function onDelete(td) {
-    if (confirm('Are you sure to delete this record ?')) {
-        row = td.parentElement.parentElement;
-        document.getElementById("employeeList").deleteRow(row.rowIndex);
-        resetForm();
-    }
+
+    //var id = $('#id').val();
+    selectedRow = td.parentElement.parentElement;
+    var id = selectedRow.cells[0].innerHTML;
+    var weHaveSuccess = false;
+  
+    $.ajax({
+        type: 'DELETE',
+        dataType: 'json',
+        contentType:'application/json',
+        url: 'https://4mnqff3wfj.execute-api.us-east-1.amazonaws.com/dev/book/' + id,
+        success: function(newOrder,status,xhr) {
+            
+            alert("Delete success!"  + xhr.status);
+            location.reload(); 
+            weHaveSuccess = true;
+        },
+        error: function(xhr, status,error) {
+            
+            alert("Error!" + xhr.status); 
+        }
+        }
+    );
 }
+
 function validate() {
     isValid = true;
     if (document.getElementById("author").value == "") {
@@ -83,3 +103,111 @@ function validate() {
     }
     return isValid;
 }
+$(function () {
+
+    var $orders = $('#orders');
+    var $author = $('#author');
+    var $description = $('#description');
+    var $publishDate = $('#publishDate');
+    var $title = $('#title');
+    var $price = $('#price');
+
+    function addOrder(order) {
+        $orders.append('<li>author: ' + order.author + ',description'  + order.description+ 
+        ',publishDate'  + order.publishDate+',title'  + order.title+', price: ' + order.price +'</li>');
+    }
+
+   
+
+    $('#add-order').on('click', function() {
+
+        var order = {
+            author: $('#author').val(), //$author.val(),
+            description: $('#description').val(), 
+            publishDate: $('#publishDate').val(),
+            title: $('#title').val(),
+            price: $('#price').val() ///$price.val(),
+            
+        };
+        var weHaveSuccess = false;
+        console.log(order);
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            contentType:'application/json',
+            url: 'https://4mnqff3wfj.execute-api.us-east-1.amazonaws.com/dev/book',
+            data: JSON.stringify(order),
+            success: function(newOrder,status,xhr) {
+                addOrder(newOrder);
+                weHaveSuccess = true;
+            },
+            error: function(xhr, status,error) {
+                
+                alert("Error!" + xhr.status);
+                alert('error saving orders');
+                
+            }
+            }
+        );
+    });
+    
+    $('#update-order').on('click', function() {
+
+        var order = {
+            id: $('#id').val(),
+            author: $('#author').val(), //$author.val(),
+            description: $('#description').val(), 
+            publishDate: $('#publishDate').val(),
+            title: $('#title').val(),
+            price: $('#price').val() ///$price.val(),
+            
+        };
+        var weHaveSuccess = false;
+        console.log(order);
+        $.ajax({
+            type: 'PUT',
+            dataType: 'json',
+            contentType:'application/json',
+            url: 'https://4mnqff3wfj.execute-api.us-east-1.amazonaws.com/dev/book',
+            data: JSON.stringify(order),
+            success: function(newOrder,status,xhr) {
+                addOrder(newOrder);
+                weHaveSuccess = true;
+            },
+            error: function(xhr, status,error) {
+                
+                alert("Error!" + xhr.status);
+                alert('error saving orders');
+                
+            }
+            }
+        );
+    });
+
+    $('#delete-order').on('click', function(td) {
+
+        //var id = $('#id').val();
+        selectedRow = td.parentElement.parentElement;
+        var id = selectedRow.cells[0].innerHTML;
+        var weHaveSuccess = false;
+        console.log(order);
+        $.ajax({
+            type: 'DELETE',
+            dataType: 'json',
+            contentType:'application/json',
+            url: 'https://4mnqff3wfj.execute-api.us-east-1.amazonaws.com/dev/book/' + id,
+            data: JSON.stringify(order),
+            success: function(newOrder,status,xhr) {
+                addOrder(newOrder);
+                weHaveSuccess = true;
+            },
+            error: function(xhr, status,error) {
+                
+                alert("Error!" + xhr.status);
+                alert('error saving orders');
+                
+            }
+            }
+        );
+    });
+});
