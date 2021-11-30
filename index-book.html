@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Management Order</title>
+    <title>Management Book</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/jquery-ui.min.css">
     <link rel="stylesheet" href="/css/themify-icons/themify-icons.css">
@@ -14,10 +14,12 @@
     <!--for sidebarmenu-->
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
     <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
     
 </head>
 <body>
+
     <!--sidebarmenu-->
     <div class="btnclose">
         <span class="fas fa-bars"></span>
@@ -28,119 +30,93 @@
             <button class="ti-share-alt" > Log out</button>Log out</a>
         <ul>
           <li ><a href="#">Dashboard</a></li>
-          <li><a href="index-book.html" class="feat-btn">Book</a></li>
-          <li class="active"><a href="#">Order</a></li>
+          <li  class="active"><a href="#" class="feat-btn">Book</a></li>
+          <li><a href="index-order.html">Order</a></li>
           <li><a href="index-appointment.html">Appointment</a></li>
         </ul>
       </nav>
       <!--End sidebarmenu-->
-
+    
       <!--Model-->
       <div class="container">
         <div class="row">
             <button id="open" class="btnmodal">
-                Create Order
+                Create Book
               </button>
             
               <div class="modalbtn-container" id="modal_container">
                 <div class="modalbtn">
-                  <h1>Order</h1>
+                  <h1>Book</h1>
                   <div class = "js-modal-close">    
                     <button id ="close" class="ti-close"></button>
                 </div>
                   <form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
+                    
                     <div>
                         <label>Id*</label>
                         <input readonly type="text" name="id" id="id" style="background: #e9ecef;">
                     
                     </div>
                     <div>
-                        <label>Book Title</label><label class="validation-error hide" id="bookTitleValidationError">This field is required.</label>
-                        <input type="text" name="bookTitle" id="bookTitle">
+                        <label>Author</label><label class="validation-error hide" id="authorValidationError">This field is required.</label>
+                        <input type="text" name="author" id="author">
                     </div>
                     <div>
-                        <label>Quantity</label>
-                        <input type="text" name="quantity" id="quantity">
+                        <label>Description</label>
+                        <input type="text" name="description" id="description">
                     </div>
                     <div>
-                        <label>Order Date</label>
-                        <input type="text" name="orderDate" id="orderDate">
+                        <label>Publish Date</label>
+                        <input type="text" name="publishDate" id="publishDate">
                     </div>
                     <div>
-                        <label>Name</label>
-                        <input type="text" name="name" id="name">
+                        <label>Title</label>
+                        <input type="text" name="title" id="title">
                     </div>
                     <div>
-                        <label>Contact</label>
-                        <input type="text" name="contact" id="contact">
-                    </div>
-                    <div>
-                        <label>Shipping Address</label>
-                        <input type="text" name="shippingAddress" id="shippingAddress">
-                    </div>
-                    <div>
-                        <label>Total</label>
-                        <input type="text" name="total" id="total">
-                    </div>
-                    <label>Status</label>
-                    <div>
-                        <label class="custom-select">
-                           
-                            <select name="status" id="status">
-                                <option value="confirming">confirming</option>
-                                <option value="confirmed">confirmed</option>
-                            </select>
-                        </label>
-
-                       
+                        <label>Price</label>
+                        <input type="text" name="price" id="price">
                     </div>
                     
                 </form>
-                <br>
-                <br>
-                <div  class="form-action-buttons">      
+                <div  class="form-action-buttons">
                     <button id="add-order">Add</button>
-                    <button id="update-order">Update</button>     
+                    <button id="update-order">Update</button>
                 </div>
-
+        
                 </div>
               </div>
         </div>
     </div>
     <!--End Model-->
 
-            <!--table-->
-        
-            <div>
+    <div>
         <table>
-            <tr>  
+            <tr>
+               
                 <td>
                     <table class="list" id="employeeList">
                         <thead>
                             <tr>
                         <th>Id</th>
-                        <th>Book Title</th>
-                        <th>Quantity</th>
-                        <th>Order Date</th>
-                        <th>Name</th>
-                        <th>Contact</th>
-                        <th>Shipping Address</th>
-                        <th>Total</th>
-                        <th>Status</th>
+                        <th>Author</th>
+                        <th>Description</th>
+                        <th>Publish Date</th>
+                        <th>Title</th>
+                        <th>Price</th>
                         <th>Edit</th>
-                        <th>Delete</th>       
+                        <th>Delete</th>  
                             </tr>
                         </thead>
                         <tbody>
+    
                         <tbody id="load_data">
                     </table>
                 </td>
             </tr>
         </table>
     </div>
-    <!--end table-->
-
-    <script src="/js/script-order.js"></script>
+    <script src="/js/script-book.js"></script>
     <script src="/js/common-script.js"></script>
     <!--load data-->
     <script>
@@ -150,22 +126,19 @@
 
         function LoadData() {
             $.ajax({
-                url: 'https://610s4r7hw8.execute-api.us-east-1.amazonaws.com/dev/order',
+                url: 'https://366jj5zg1e.execute-api.us-east-1.amazonaws.com/dev/book',
                 type: 'GET',
                 success: function(rs) {
                     console.log(rs);
                     var str = "";
                     $.each(rs, function(i, item) {
                         str += "<tr>";
-                        str += "<td>" + item.id + "</td>"; 
-                        str += "<td>" + item.bookTitle + "</td>";
-                        str += "<td>" + item.quantity + "</td>";
-                        str += "<td>" + item.orderDate + "</td>";
-                        str += "<td>" + item.name + "</td>";
-                        str += "<td>" + item.contact + "</td>";
-                        str += "<td>" + item.shippingAddress + "</td>";
-                        str += "<td>" + item.total + "</td>";
-                        str += "<td>" + item.status + "</td>";
+                        str += "<td>" + item.id + "</td>"; //so tu tang
+                        str += "<td>" + item.author + "</td>"; //tieu de
+                        str += "<td>" + item.description + "</td>";
+                        str += "<td>" + item.publishDate + "</td>";
+                        str += "<td>" + item.title + "</td>";
+                        str += "<td>" + item.price + "</td>";
                         str += "<td> <button onClick='onEdit(this)'>Edit</button> </td>";
                         str += "<td> <button onClick='onDelete(this)'>Delete</button> </td>";
                         str += "</tr>";
@@ -179,10 +152,10 @@
 
 <script>
     $( function() {
-      $( "#orderDate" ).datepicker();
+      $( "#publishDate" ).datepicker();
     } );
 
-    $( "#orderDate" ).datepicker({
+    $( "#publishDate" ).datepicker({
   dateFormat: "yy-mm-dd"
     });
     </script>

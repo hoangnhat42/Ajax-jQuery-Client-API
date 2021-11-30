@@ -1,116 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Management Book</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="/css/style-login.css">
+  <title>Login</title>
 </head>
 <body>
-    
-    <div class="container">
-        <div class="row">
-            
+  <div class="login-wrapper">
+    <form name ="login" action="" class="form">
+      <img src="/img/avatar.png" alt="">
+      <h2>Login</h2>
+      <div class="input-group">
+        <input type="text" name="id" id="loginUser" required>
+        <label for="loginUser">User Name</label>
+      </div>
+      <div class="input-group">
+        <input type="password" name="pass" id="loginPassword" required>
+        <label for="loginPassword">Password</label>
+      </div>
+      <input type="button" value="Login" class="submit-btn" onClick="pasuser(this.form)">
+      <a href="#forgot-pw" class="forgot-pw">Forgot Password?</a>
+    </form>
+
+
+    <div id="forgot-pw">
+      <form action="" class="form">
+        <a href="#" class="close">&times;</a>
+        <h2>Reset Password</h2>
+        <div class="input-group">
+          <input type="email" name="Email" id="email" required>
+          <label for="email">Email</label>
         </div>
-    
+        <input type="submit" value="Submit" class="submit-btn">
+      </form>
     </div>
+  </div>
 
-    <div>
-        <table>
-            <tr>
-                <td>
-                    <form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
-                        <div>
-                            <label>Id*</label>
-                            <input readonly type="text" name="id" id="id">
-                        
-                        </div>
-                        <div>
-                            <label>Author</label><label class="validation-error hide" id="authorValidationError">This field is required.</label>
-                            <input type="text" name="author" id="author">
-                        </div>
-                        <div>
-                            <label>Description</label>
-                            <input type="text" name="description" id="description">
-                        </div>
-                        <div>
-                            <label>Publish Date</label>
-                            <input type="text" name="publishDate" id="publishDate">
-                        </div>
-                        <div>
-                            <label>Title</label>
-                            <input type="text" name="title" id="title">
-                        </div>
-                        <div>
-                            <label>Price</label>
-                            <input type="text" name="price" id="price">
-                        </div>
-                        <div  class="form-action-buttons">
-                            
-                            <button id="add-order">Add</button>
-                            <button id="update-order">Update</button>
-                            
-                        </div>
-                    </form>
-                </td>
-                <td>
-                    <table class="list" id="employeeList">
-                        <thead>
-                            <tr>
-                        <th>id</th>
-                        <th>author</th>
-                        <th>description</th>
-                        <th>publishDate</th>
-                        <th>title</th>
-                        <th>price</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                               
-                            </tr>
-                        </thead>
-                        <tbody>
-    
-                        <tbody id="load_data">
-                    </table>
-                </td>
-            </tr>
-        </table>
-    </div>
-    <script src="script.js"></script>
-    <script>
-        $(document).ready(function() {
-            LoadData();
-        });
 
-        function LoadData() {
-            $.ajax({
-                url: 'https://4mnqff3wfj.execute-api.us-east-1.amazonaws.com/dev/book',
-                type: 'GET',
-                success: function(rs) {
-                    console.log(rs);
-                    var str = "";
-                    $.each(rs, function(i, item) {
-                        str += "<tr>";
-                        str += "<td>" + item.id + "</td>"; //so tu tang
-                        str += "<td>" + item.author + "</td>"; //tieu de
-                        str += "<td>" + item.description + "</td>";
-                        str += "<td>" + item.publishDate + "</td>";
-                        str += "<td>" + item.title + "</td>";
-                        str += "<td>" + item.price + "</td>";
-                        str += "<td> <a onClick='onEdit(this)'>Edit</a> </td>";
-                        str += "<td> <a onClick='onDelete(this)'>Delete</a> </td>";
-                        str += "</tr>";
+  
 
-                    });
-                    $('#load_data').html(str);
-                }
-            });
-        }
+  <script language="javascript">
+    function pasuser(form) {
+    if (form.id.value=="admin") { 
+    if (form.pass.value=="admin") {              
+    location="index-book.html" 
+    } else {
+    alert("Invalid Password")
+    }
+    } else {  alert("Invalid UserID")
+    }
+    }
     </script>
 </body>
 </html>

@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Management Order</title>
+    <title>Management Appointment</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="/css/jquery.timepicker.min.css">
     <link rel="stylesheet" href="/css/themify-icons/themify-icons.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -15,9 +16,10 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <script type="text/javascript" src="/js/jquery-ui.min.js"></script>
-    
+    <script type="text/javascript" src="/js/jquery.timepicker.min.js"></script>
 </head>
 <body>
+    
     <!--sidebarmenu-->
     <div class="btnclose">
         <span class="fas fa-bars"></span>
@@ -29,8 +31,8 @@
         <ul>
           <li ><a href="#">Dashboard</a></li>
           <li><a href="index-book.html" class="feat-btn">Book</a></li>
-          <li class="active"><a href="#">Order</a></li>
-          <li><a href="index-appointment.html">Appointment</a></li>
+          <li><a href="index-order.html">Order</a></li>
+          <li class="active"><a href="#">Appointment</a></li>
         </ul>
       </nav>
       <!--End sidebarmenu-->
@@ -39,68 +41,46 @@
       <div class="container">
         <div class="row">
             <button id="open" class="btnmodal">
-                Create Order
+                Create Appointment
               </button>
             
+              
               <div class="modalbtn-container" id="modal_container">
                 <div class="modalbtn">
-                  <h1>Order</h1>
+                    
+                  <h1>Appointment</h1>
                   <div class = "js-modal-close">    
                     <button id ="close" class="ti-close"></button>
                 </div>
                   <form onsubmit="event.preventDefault();onFormSubmit();" autocomplete="off">
+                   
                     <div>
                         <label>Id*</label>
                         <input readonly type="text" name="id" id="id" style="background: #e9ecef;">
                     
                     </div>
                     <div>
-                        <label>Book Title</label><label class="validation-error hide" id="bookTitleValidationError">This field is required.</label>
-                        <input type="text" name="bookTitle" id="bookTitle">
+                        <label>Contact</label><label class="validation-error hide" id="contactValidationError">This field is required.</label>
+                        <input type="text" name="contact" id="contact">
                     </div>
                     <div>
-                        <label>Quantity</label>
-                        <input type="text" name="quantity" id="quantity">
-                    </div>
-                    <div>
-                        <label>Order Date</label>
-                        <input type="text" name="orderDate" id="orderDate">
+                        <label>Date</label>
+                        <input type="text" name="date" id="date">
                     </div>
                     <div>
                         <label>Name</label>
                         <input type="text" name="name" id="name">
                     </div>
                     <div>
-                        <label>Contact</label>
-                        <input type="text" name="contact" id="contact">
+                        <label>Time</label>
+                        <input type="text" name="time" id="time">
                     </div>
-                    <div>
-                        <label>Shipping Address</label>
-                        <input type="text" name="shippingAddress" id="shippingAddress">
-                    </div>
-                    <div>
-                        <label>Total</label>
-                        <input type="text" name="total" id="total">
-                    </div>
-                    <label>Status</label>
-                    <div>
-                        <label class="custom-select">
-                           
-                            <select name="status" id="status">
-                                <option value="confirming">confirming</option>
-                                <option value="confirmed">confirmed</option>
-                            </select>
-                        </label>
 
-                       
-                    </div>
                     
                 </form>
-                <br>
-                <br>
-                <div  class="form-action-buttons">      
+                <div  class="form-action-buttons">              
                     <button id="add-order">Add</button>
-                    <button id="update-order">Update</button>     
+                    <button id="update-order">Update</button>
                 </div>
 
                 </div>
@@ -109,38 +89,35 @@
     </div>
     <!--End Model-->
 
-            <!--table-->
-        
-            <div>
+
+    
+    <div>
         <table>
-            <tr>  
+            <tr>
+
                 <td>
                     <table class="list" id="employeeList">
                         <thead>
                             <tr>
                         <th>Id</th>
-                        <th>Book Title</th>
-                        <th>Quantity</th>
-                        <th>Order Date</th>
-                        <th>Name</th>
                         <th>Contact</th>
-                        <th>Shipping Address</th>
-                        <th>Total</th>
-                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Name</th>
+                        <th>Time</th>
                         <th>Edit</th>
-                        <th>Delete</th>       
+                        <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
+    
                         <tbody id="load_data">
                     </table>
                 </td>
             </tr>
         </table>
     </div>
-    <!--end table-->
-
-    <script src="/js/script-order.js"></script>
+    
+    <script src="/js/script-appointment.js"></script>
     <script src="/js/common-script.js"></script>
     <!--load data-->
     <script>
@@ -150,22 +127,18 @@
 
         function LoadData() {
             $.ajax({
-                url: 'https://610s4r7hw8.execute-api.us-east-1.amazonaws.com/dev/order',
+                url: 'https://wqjwh8wfh3.execute-api.us-east-1.amazonaws.com/dev/appointment',
                 type: 'GET',
                 success: function(rs) {
                     console.log(rs);
                     var str = "";
                     $.each(rs, function(i, item) {
                         str += "<tr>";
-                        str += "<td>" + item.id + "</td>"; 
-                        str += "<td>" + item.bookTitle + "</td>";
-                        str += "<td>" + item.quantity + "</td>";
-                        str += "<td>" + item.orderDate + "</td>";
+                        str += "<td>" + item.id + "</td>";
+                        str += "<td>" + item.contact + "</td>"; 
+                        str += "<td>" + item.date + "</td>";
                         str += "<td>" + item.name + "</td>";
-                        str += "<td>" + item.contact + "</td>";
-                        str += "<td>" + item.shippingAddress + "</td>";
-                        str += "<td>" + item.total + "</td>";
-                        str += "<td>" + item.status + "</td>";
+                        str += "<td>" + item.time + "</td>";
                         str += "<td> <button onClick='onEdit(this)'>Edit</button> </td>";
                         str += "<td> <button onClick='onDelete(this)'>Delete</button> </td>";
                         str += "</tr>";
@@ -179,12 +152,18 @@
 
 <script>
     $( function() {
-      $( "#orderDate" ).datepicker();
+      $( "#date" ).datepicker();
     } );
 
-    $( "#orderDate" ).datepicker({
+    $( "#date" ).datepicker({
   dateFormat: "yy-mm-dd"
     });
+
+    $(document).ready(function(){
+    $("#time").timepicker({
+    timeFormat: 'HH:mm',
+});
+});
     </script>
 </body>
 </html>
